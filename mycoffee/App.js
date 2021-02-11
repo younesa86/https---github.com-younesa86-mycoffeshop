@@ -1,14 +1,22 @@
 import 'react-native-gesture-handler';
+import React, { Component } from 'react';
 
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import Sign_Up from '../mycoffee/screens/signup';
 
 
+class App extends Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+ 
+     // <HomeScreen />
+      <Sign_Up/>
+    );
+  }
+}
+
+export default App;
