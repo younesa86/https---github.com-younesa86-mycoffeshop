@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import login from './Login';
 
 
 
@@ -22,7 +23,7 @@ class HomeScreen extends Component {
 
         const value = await AsyncStorage.getItem('@session_token');
         if (value == null) {
-            this.props.navigation.navigate('login');
+            this.props.navigation.navigate('Login');
         }
     };
 
