@@ -1,30 +1,40 @@
 import React, {Component} from 'react';
-import {Text, View } from 'react-native';
+import {Text, View, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 
 class HomeScreen extends Component {
-    componentDidMount() {
-        this.unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.checkLoggedIn();
+    
+    
+    //logout
+    cleardata = async () => {
+        let token = await AsyncStorage.getItem('@session_token');
 
-        });
+        return fetch("http://10.0.2.2:3333/api/1.0.0/user/logout", {
+            method: 'post',
+            headers: { 'x-authorization': token                                
+            }
+            
+            })
+            .then(async(response) => {
+            if(response.status === 200) {
+            
+                await AsyncStorage.clear();
+                this.props.navigation.navigate('LoginScreen')
+
+            }else if(response === 401) {
+                throw 'Unauthorised';
+            }else{
+                throw 'Somthing went wrong';
+            }
+            })
+           
+    
     }
 
-    componentWillUnmount() {
-        //this.unsubscribe();
-        this.checkLoggedIn;
-    }
-
-    checkLoggedIn = async () => {
-
-        const value = await AsyncStorage.getItem('@session_token');
-        if (value == null) {
-            this.props.navigation.navigate('LoginScreen');
-        }
-    };
+    
 
     render() {
         return (
@@ -36,6 +46,16 @@ class HomeScreen extends Component {
 
             }}>
             <Text>Wellcome to my Coffida</Text>
+            
+            <Button 
+                title="logout"
+                color="darkblue"
+                onPress={() => this.cleardata()}                   
+                
+            />
+
+
+            
 
             </View>
         );
