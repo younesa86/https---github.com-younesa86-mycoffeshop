@@ -8,7 +8,7 @@ import {
   TouchableOpacity, View, ImageBackground
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ImageBackground} from 'react-native';
+//import {ImageBackground} from 'react-native';
 import images from '../images/Images';
 
 
@@ -24,10 +24,10 @@ class LoginScreen extends React.Component{
     }  
 
 
-    LoginScreen = () => {
+    login = () => {
 
 
-        return fetch("http://10.0.2.2:3333/api/1.0.0/user/LoginScreen", {
+        return fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -85,8 +85,8 @@ class LoginScreen extends React.Component{
 
             <View style={styles.formItem}>
             <Button 
-                title= "LoginScreen"
-                onPress={() => this.LoginScreen()}
+                title= "Login"
+                onPress={() => this.login()}
             />
             <Button 
                 title="Don't have  an account?"
