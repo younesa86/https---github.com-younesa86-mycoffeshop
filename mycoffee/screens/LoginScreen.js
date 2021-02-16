@@ -5,27 +5,29 @@ import {
   ToastAndroid,
   StyleSheet, Text,
   TextInput,
-  TouchableOpacity, View
+  TouchableOpacity, View, ImageBackground
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ImageBackground} from 'react-native';
+import images from '../images/Images';
 
 
-class Login extends Component{
+class LoginScreen extends React.Component{
     constructor(props) {
         super(props);
     
         this.state = {
          
-          Email: '',
-          Password: '',
+          email: '',
+          password: '',
         }
     }  
 
 
-    login = () => {
+    LoginScreen = () => {
 
 
-        return fetch("http://10.0.2.2:3333/api/1.0.0/user/login", {
+        return fetch("http://10.0.2.2:3333/api/1.0.0/user/LoginScreen", {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
@@ -44,7 +46,7 @@ class Login extends Component{
         .then(async (responseJson) => {
         console.log(responseJson);
         await AsyncStorage.setItem('@session_token', responseJson.token);
-        this.props.navigation.navigate("Home")
+        this.props.navigation.navigate("HomeScreen")
         })
         .catch((error) => {
         console.log(error);
@@ -57,6 +59,7 @@ class Login extends Component{
     render() {
         return (
         <View>
+        
             <ScrollView>
             
             <View style={styles.formItem}>
@@ -82,13 +85,13 @@ class Login extends Component{
 
             <View style={styles.formItem}>
             <Button 
-                title= "Login"
-                onPress={() => this.login()}
+                title= "LoginScreen"
+                onPress={() => this.LoginScreen()}
             />
             <Button 
                 title="Don't have  an account?"
                 color="darkblue"
-                onPress={() => this.props.navigation.navigate("signup")}
+                onPress={() => this.props.navigation.navigate('SignupScreen')}
             />
                
             </View>
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
   
 });
 
-export default Login;
+export default LoginScreen;
 
 
 

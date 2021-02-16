@@ -7,20 +7,22 @@ import {
   TextInput,
   TouchableOpacity, View
 } from 'react-native';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
-class Sign_Up extends Component {
+
+class SignupScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      firstName: '',
-      LastName: '',
-      Email: '',
-      Password: '',
-    };
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+    }
   }
 
-  signUp = () => {
+  SignUp = () => {
     return fetch("http://10.0.2.2:3333/api/1.0.0/user", {
       method: 'post',
       headers: {
@@ -29,7 +31,7 @@ class Sign_Up extends Component {
       body: JSON.stringify(this.state)
     })
     .then((response) => {
-      if(response.status === 201) {
+      if(response.status === 201){
         return response.json()
       }else if(response.json.status === 400) {
         throw 'Failed validation';
@@ -40,7 +42,7 @@ class Sign_Up extends Component {
     .then(async (responseJson) => {
       console.log("User created with ID: ", responseJson);
       ToastAndroid.show("Account Created", ToastAndroid.SHORT);
-      this.props.navigation.navigate("Login")
+      this.props.navigation.navigate('LoginScreen')
     })
     .catch((error) => {
       console.log(error);
@@ -59,8 +61,8 @@ class Sign_Up extends Component {
             <TextInput
               placeholder="Enter first name..."
               style={styles.formInput}
-              onChangeText={(firstName) => this.setState({firstName})}
-              value={this.state.firstName}
+              onChangeText={(first_name) => this.setState({first_name})}
+              value={this.state.first_name}
             />
           </View>
 
@@ -69,8 +71,8 @@ class Sign_Up extends Component {
             <TextInput
               placeholder="Enter last name..."
               style={styles.formInput}
-              onChangeText={(lastName) => this.setState({lastName})}
-              value={this.state.lastName}
+              onChangeText={(last_name) => this.setState({last_name})}
+              value={this.state.last_name}
             />
           </View>
 
@@ -98,7 +100,7 @@ class Sign_Up extends Component {
           <View style={styles.formItem}>
             <TouchableOpacity
               style={styles.formTouch}
-              onPress={() => this.signUp()}>
+              onPress={() => this.SignUp()}>
               <Text style={styles.formTouchText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
@@ -139,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sign_Up;
+export default SignupScreen;

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 //omport {createApp}
 //import {createStackNavigator} from '@react-navigation/stack';
-import Login from '../screens/login';
-import signUp from '../screens/signup';
+import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 //import home from '../screens/home';
 
 
@@ -12,16 +12,17 @@ const stack = createStackNavigator();
 //const BottomTab = createBottomTabNavigator();
 
 
- function home() {
+
+ function start() {
 
   return (
     <stack.Navigator >
-     <stack.Screen name="login" component={Login} />
-     <stack.Screen name="signup" component={signUp} />
+     <stack.Screen name="LoginScreen" component={LoginScreen} />
+     <stack.Screen name="SignupScreen" component={SignupScreen} />
     </stack.Navigator> 
   )
 }
-export default home;
+export default start;
 
 
 

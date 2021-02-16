@@ -1,9 +1,9 @@
 //import { AsyncLocalStorage } from 'async_hooks';
-//import Sign_Up from './components/singup';
+//import SignupScreen from './components/singup';
 import React, {Component} from 'react';
 import {Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import login from './Login';
+//import LoginScreen from './LoginScreen';
 
 
 
@@ -16,14 +16,15 @@ class HomeScreen extends Component {
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
+        //this.unsubscribe();
+        this.checkLoggedIn;
     }
 
     checkLoggedIn = async () => {
 
         const value = await AsyncStorage.getItem('@session_token');
         if (value == null) {
-            this.props.navigation.navigate('Login');
+            this.props.navigation.navigate('LoginScreen');
         }
     };
 
