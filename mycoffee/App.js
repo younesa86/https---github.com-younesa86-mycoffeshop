@@ -1,10 +1,11 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import start from './Navigation/Navigate';
+//import start from './Navigation/Navigate';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-
-
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
 
 
 
@@ -26,7 +27,10 @@ class App extends React.Component{
       <NavigationContainer>
 
         <appstart.Navigator>
-          <appstart.Screen name={'root'} component={start} />
+          <appstart.Screen name={'LoginScreen'} component={LoginScreen} />
+          <appstart.Screen name={'SignupScreen'} component={SignupScreen} />
+          <appstart.Screen name={'HomeScreen'} component={HomeScreen} />
+
         </appstart.Navigator>
            
 

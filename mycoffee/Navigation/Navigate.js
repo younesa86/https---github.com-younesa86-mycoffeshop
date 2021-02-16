@@ -13,7 +13,9 @@ const stack = createStackNavigator();
 
 
 
- function start() {
+
+
+function start() {
 
   return (
     <stack.Navigator >

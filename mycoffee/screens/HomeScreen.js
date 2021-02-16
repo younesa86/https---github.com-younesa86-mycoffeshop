@@ -1,9 +1,7 @@
-//import { AsyncLocalStorage } from 'async_hooks';
-//import SignupScreen from './components/singup';
 import React, {Component} from 'react';
 import {Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import LoginScreen from './LoginScreen';
+
 
 
 
@@ -37,7 +35,7 @@ class HomeScreen extends Component {
                 alignItems: 'center',
 
             }}>
-            <Text>Home</Text>
+            <Text>Wellcome to my Coffida</Text>
 
             </View>
         );
