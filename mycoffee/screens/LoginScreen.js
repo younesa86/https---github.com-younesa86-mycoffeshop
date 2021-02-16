@@ -44,13 +44,14 @@ class LoginScreen extends React.Component{
         }
         })
         .then(async (responseJson) => {
-        console.log(responseJson);
-        await AsyncStorage.setItem('@session_token', responseJson.token);
-        this.props.navigation.navigate("HomeScreen")
-        })
-        .catch((error) => {
-        console.log(error);
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+          console.log("login successful ", responseJson);
+          ToastAndroid.show("Account Created", ToastAndroid.SHORT);                
+          await AsyncStorage.setItem('@session_token', responseJson.token);
+          this.props.navigation.navigate("HomeScreen")
+          })
+          .catch((error) => {
+          console.log(error);
+          ToastAndroid.show(error, ToastAndroid.SHORT);
         })
 
     }
