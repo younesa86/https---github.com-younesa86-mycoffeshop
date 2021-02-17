@@ -28,6 +28,7 @@ class UpdateUser extends Component {
 
   }
 
+  //get user infoo
   getinfo = async () => {
       
     let user_Id= await AsyncStorage.getItem('@user_id');
@@ -62,7 +63,7 @@ class UpdateUser extends Component {
   }
 
 
-
+  //edit user new info
   editInfo = async () => {
       
     let user_Id= await AsyncStorage.getItem('@user_id');

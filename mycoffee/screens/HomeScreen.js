@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class HomeScreen extends Component {
 
-    
-  //logout
+
+  //logout function
   cleardata = async () => {
     let token = await AsyncStorage.getItem('@session_token')
 
