@@ -48,7 +48,17 @@ class HomeScreen extends Component {
               onPress={() => this.props.navigation.navigate('UserScreen')}>
               <Text style={styles.formTouchText}>UserInfo</Text>
             </TouchableOpacity>
+            
           </View>
+          <View style={styles.formItem}>
+            <TouchableOpacity
+              style={styles.formTouch}
+              onPress={() => this.props.navigation.navigate('ShopList')}>
+              <Text style={styles.formTouchText}>shops</Text>
+            </TouchableOpacity>
+            
+          </View>
+
         </View>
       </View>
     )

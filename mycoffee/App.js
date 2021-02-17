@@ -7,6 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import UserScreen from './screens/UserScreen';
+import ShopList from './screens/ShopList';
 
 
 
@@ -32,6 +33,7 @@ class App extends React.Component{
           <appstart.Screen name={'SignupScreen'} component={SignupScreen} />
           <appstart.Screen name={'HomeScreen'} component={HomeScreen} />
           <appstart.Screen name={'UserScreen'} component={UserScreen} />
+          <appstart.Screen name={'ShopList'} component={ShopList} />
 
 
         </appstart.Navigator>
