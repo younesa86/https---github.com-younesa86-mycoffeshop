@@ -62,11 +62,47 @@ class UpdateUser extends Component {
   }
 
 
+
+  editInfo = async () => {
+      
+    let user_Id= await AsyncStorage.getItem('@user_id');
+    let token = await AsyncStorage.getItem('@session_token');
+    return fetch("http://10.0.2.2:3333/api/1.0.0/user/" + user_Id , {
+      method: 'patch',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-authorization': token
+
+      },
+      body :JSON.stringify(this.state)
+      
+    })
+    .then((response) => {
+        if(response.status === 200) {
+            
+        }else {
+            throw 'Something went wrong';
+        }
+    })
+    .then(async (responseJson) => {
+     
+        console.log("Update info Successful",responseJson);
+
+      })
+      .catch((error) => {
+        console.log(error);
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      })
+
+    
+  }
+
+
   
   
 
   render() {
-     
+    
     return (
       <View>
         <ScrollView>
@@ -116,7 +152,7 @@ class UpdateUser extends Component {
           <View style={styles.formItem}>
             <TouchableOpacity
               style={styles.formTouch}
-              //onPress={() => this.getinfo()}
+              onPress={ this.editInfo}
               >
               <Text style={styles.formTouchText}>save</Text>
             </TouchableOpacity>
