@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Button } from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -47,21 +47,40 @@ class HomeScreen extends Component {
             }}>
             <Text>Wellcome to my Coffida</Text>
             
-            <Button 
-                title="logout"
-                color="darkblue"
-                onPress={() => this.cleardata()}                   
-                
-            />
+            
+             <View style={styles.formItem}>
+            <TouchableOpacity
+              style={styles.formTouch}
+              onPress={() => this.cleardata()}>
+              <Text style={styles.formTouchText}>logout</Text>
+            </TouchableOpacity>
+            
+
+
+             
 
 
             
 
+            </View>
             </View>
         );
     }
 
 
 }
+const styles = StyleSheet.create({
+    formItem: {
+    padding: 20,
+  },
+ 
+  
+  formTouch: {
+    backgroundColor: 'lightblue',
+    padding: 10,
+    alignItems: 'center',
+  }
+
+});
 
 export default HomeScreen;

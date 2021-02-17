@@ -26,7 +26,7 @@ class App extends React.Component{
 
       <NavigationContainer>
 
-        <appstart.Navigator>
+        <appstart.Navigator initialRouteName="Home">
           <appstart.Screen name={'LoginScreen'} component={LoginScreen} />
           <appstart.Screen name={'SignupScreen'} component={SignupScreen} />
           <appstart.Screen name={'HomeScreen'} component={HomeScreen} />
