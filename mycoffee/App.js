@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
+import UserScreen from './screens/UserScreen';
 
 
 
@@ -30,6 +31,8 @@ class App extends React.Component{
           <appstart.Screen name={'LoginScreen'} component={LoginScreen} />
           <appstart.Screen name={'SignupScreen'} component={SignupScreen} />
           <appstart.Screen name={'HomeScreen'} component={HomeScreen} />
+          <appstart.Screen name={'UserScreen'} component={UserScreen} />
+
 
         </appstart.Navigator>
            
