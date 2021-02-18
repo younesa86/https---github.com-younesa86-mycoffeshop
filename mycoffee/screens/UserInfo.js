@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   ToastAndroid,
-  StyleSheet, Text,
+   Text,
   TextInput,
   TouchableOpacity, View
 } from 'react-native';
