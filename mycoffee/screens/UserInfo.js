@@ -18,8 +18,7 @@ class UpdateUser extends Component {
       first_name: "",
       last_name: "",
       email: "",
-      user_id: "",
-      favourite_locations: [],
+    
        
 
 
@@ -76,40 +75,53 @@ class UpdateUser extends Component {
     return (
       <View>
         <ScrollView>
-          <Text style={styles.title}>User Information</Text>
+          <Text style= {{  color: 'steelblue',
+                          backgroundColor: 'lightblue',
+                          padding: 10,
+                          fontSize: 25,}}>User Information</Text>
 
-          <View style={styles.formItem}>
-            <Text style={styles.formLabel}>First Name:</Text>
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 15,
+                          color: 'steelblue'}}>First Name:</Text>
             <TextInput
              
-              style={styles.formInput}
+              style={{borderWidth: 1,
+                      borderColor: 'lightblue',
+                      borderRadius: 5}}
               onChangeText={(first_name) => this.setState({first_name})}
               value={this.state.first_name}
             />
           </View>
 
-          <View style={styles.formItem}>
-            <Text style={styles.formLabel}>Last Name:</Text>
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 15,
+                          color: 'steelblue'}}>Last Name:</Text>
             <TextInput
              
-              style={styles.formInput}
+              style={{borderWidth: 1,
+                      borderColor: 'lightblue',
+                      borderRadius: 5}}
               onChangeText={(last_name) => this.setState({last_name})}
               value={this.state.last_name}
             />
           </View>
 
-          <View style={styles.formItem}>
-            <Text style={styles.formLabel}>Email:</Text>
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 15,
+                          color: 'steelblue'}}>Email:</Text>
             <TextInput
              
-              style={styles.formInput}
+              style={{borderWidth: 1,
+                      borderColor: 'lightblue',
+                      borderRadius: 5}}
               onChangeText={(email) => this.setState({email})}
               value={this.state.email}
             />
           </View>
 
-          <View style={styles.formItem}>
-            <Text style={styles.formLabel}>Password:</Text>
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 15,
+                          color: 'steelblue'}}>Password:</Text>
             <TextInput
              
               style={styles.formInput}
@@ -119,12 +131,16 @@ class UpdateUser extends Component {
             />
           </View>
 
-          <View style={styles.formItem}>
+          <View style={{padding: 20}}>
             <TouchableOpacity
-              style={styles.formTouch}
+              style={{backgroundColor: 'lightblue',
+                      padding: 10,
+                      alignItems: 'center'}}
               onPress={ this.editInfo}
               >
-              <Text style={styles.formTouchText}>save</Text>
+              <Text style={{fontSize: 20,
+                            fontWeight: 'bold',
+                            color: 'steelblue'}}>save</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -133,35 +149,6 @@ class UpdateUser extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  title: {
-    color: 'steelblue',
-    backgroundColor: 'lightblue',
-    padding: 10,
-    fontSize: 25,
-  },
-  formItem: {
-    padding: 20,
-  },
-  formLabel: {
-    fontSize: 15,
-    color: 'steelblue',
-  },
-  formInput: {
-    borderWidth: 1,
-    borderColor: 'lightblue',
-    borderRadius: 5,
-  },
-  formTouch: {
-    backgroundColor: 'lightblue',
-    padding: 10,
-    alignItems: 'center',
-  },
-  formTouchText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'steelblue',
-  },
-});
+
 
 export default UpdateUser;
