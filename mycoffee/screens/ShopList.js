@@ -11,7 +11,9 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width} = Dimensions.get('screen')
-class UpdateUser extends Component {
+
+
+class ShopList extends Component {
   constructor(props) {
     super(props);
 
@@ -35,7 +37,7 @@ class UpdateUser extends Component {
       
     const token = await AsyncStorage.getItem('@session_token')
     return fetch("http://10.0.2.2:3333/api/1.0.0/find",  {
-        method: 'get',
+        //method: 'get',
         headers: {'x-authorization': token
         } 
       
@@ -81,8 +83,6 @@ class UpdateUser extends Component {
       
       
        <FlatList
-                nestedScrollEnabled
-                style ={{maxHeight: 75*5}}
                 data={this.state.listData || []}
                 renderItem={({item}) => (
                     <View>
@@ -99,4 +99,4 @@ class UpdateUser extends Component {
     )}
     
 }   
-export default UpdateUser;
+export default ShopList;
