@@ -7,7 +7,6 @@ import {
   Text,
   Dimensions,
   TextInput,
-  
   View,
   ImageBackground,
 } from 'react-native'
@@ -59,7 +58,7 @@ class LoginScreen extends React.Component {
 
   render () {
     return (
-      //<SafeAreaView style= {{flex :1}}>
+      
       <View style={{alignItems: 'center', flex: 1, justifyContent: 'flex-end'}}>
         <ImageBackground
                       style={{
@@ -115,20 +114,21 @@ class LoginScreen extends React.Component {
 
             
           
-            <TouchableOpacity style={{ color: 'white' }}
+            <TouchableOpacity 
               
              
-              
-              onPress={() => this.login()}
+             
+              onPress={ this.login}
             ><Text style={{fontSize: 20, fontWeight: 'bold',
-                            color: 'black', padding: 10}}>Login</Text>
+            color:'white', padding: 10}}>Login</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={{  color: 'black' }}
+            
+            <TouchableOpacity 
               
               onPress={() => this.props.navigation.navigate('SignupScreen')}
             ><Text style={{fontSize: 20, fontWeight: 'bold',
-                            color: 'black'}}>Don't have  an account?</Text>
+            color:'white',}}>Don't have  an account?</Text>
            
            </TouchableOpacity>
           </View>
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     
     padding: 2,
     fontWeight: 'bold',
+    color:'white',
     
     width: 300,
   },
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:2,
     marginTop: 10,
     width: 200,
+    color:'white',
   },
   formInput: {
     borderWidth: 2,
@@ -159,6 +161,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     borderRadius: 20,
+    borderTopColor:'white',
+    borderBottomColor: 'white',
+    borderEndColor:'white',
+    borderRightColor:'white',
+    borderLeftColor:'white',
+    color:'white',
   },
  
 })
