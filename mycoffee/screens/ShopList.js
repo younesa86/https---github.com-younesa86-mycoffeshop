@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import ShopDetailes from './ShopDetailes';
 
 const {width} = Dimensions.get('screen')
 
@@ -37,7 +38,7 @@ class ShopList extends Component {
       
     const token = await AsyncStorage.getItem('@session_token')
     return fetch("http://10.0.2.2:3333/api/1.0.0/find",  {
-        //method: 'get',
+        method: 'get',
         headers: {'x-authorization': token
         } 
       
@@ -57,11 +58,13 @@ class ShopList extends Component {
       })
       .catch((error) => {
         console.log(error);
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        
       })
 
     
     }
+  
+    
 
 
   
@@ -69,32 +72,40 @@ class ShopList extends Component {
   
 
   render() {
+    
      
     
     return (
-      <View style= {{ flex: 1, backgroundColor: 'black', alignItems: 'center' }} >
+      <View style= {{ flex: 1,  alignItems: 'center',backgroundColor: 'white', fontWeight: 'bold'}} >
+       <Text 
+      />
 
-      <View style= {{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style= {{fontSize: 20, color: 'white', marginLeft: 10, padding: 20}} > Coffee Location</Text>
+      <View style= {{flexDirection: 'row',justifyContent: 'space-between'}}>
+        <Text style= {{fontSize: 20, color: 'black',fontWeight: 'bold', marginLeft: 10, padding: 20}} > Coffee Location</Text>
       </View>
 
-      <View style= {{width: width- 40, marginBottom: 30, backgroundColor: 'white', padding: 30, borderRadius: 10}}>
-
       
+
+
+
+      <View  >
       
        <FlatList
-                data={this.state.listData || []}
+                nestedScrollEnabled
+                style={{fontWeight: 'bold', fontSize:100}}
+                data={this.state.listData }
                 renderItem={({item}) => (
                     <View>
-                      <Text>{item.location_name}</Text>
+                      <Text onPress={() => this.props.navigation.navigate('ShopDetailes',{ location: item.location_id})}>{item.location_name} </Text>
                      
                     </View>
                 )}
-                keyExtractor={(item,index) => item.location_id.toString()}
+                keyExtractor={(item) => item.location_id.toString()}
+                showsVerticalScrollIndicator
               />
 
-       </View>
-
+        
+      </View>
       </View>
     )}
     
