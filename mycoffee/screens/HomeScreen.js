@@ -1,8 +1,15 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {Text, View, StatusBar, Dimensions , StyleSheet, TouchableOpacity} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+
+const {width,height} = Dimensions.get('screen')
 class HomeScreen extends Component {
+
+
+  componentDidMount() {
+
+  }
 
 
   //logout function
@@ -22,6 +29,11 @@ class HomeScreen extends Component {
         throw 'Somthing went wrong'
       }
     })
+  }
+
+
+  renderhistory =(index) => {
+    return <ShopComponent {...index.item} data= {data} />
   }
 
   render () {
@@ -59,6 +71,15 @@ class HomeScreen extends Component {
             
           </View>
 
+          <View style={styles.formItem}>
+            <TouchableOpacity
+              style={styles.formTouch}
+              onPress={() => this.props.navigation.navigate('UserFavourite')}>
+              <Text style={styles.formTouchText}>User Favourite</Text>
+            </TouchableOpacity>
+            
+          </View>
+
         </View>
       </View>
     )
@@ -66,12 +87,13 @@ class HomeScreen extends Component {
 }
 const styles = StyleSheet.create({
   formItem: {
-    padding: 30,
+    padding: 20,
   },
 
   formTouch: {
-    backgroundColor: 'lightblue',
+    backgroundColor: 'white',
     padding: 10,
+    fontSize: 20,
     alignItems: 'center',
   },
 })
