@@ -36,7 +36,7 @@ class App extends React.Component{
           <stack.Screen name="HomeScreen" component={HomeScreen} options={{title:"Home"}}/>
           <stack.Screen name="UserScreen" component={UserScreen} options={{title:"Home"}}/>
           <stack.Screen name="ShopList" component={ShopList} options={{title:"Home"}}/>
-          <stack.Screen name="UserFavourite" component={UserFavourite} options={{title:"SignUp"}}/>
+          <stack.Screen name="UserFavourite" component={UserFavourite} options={{title:"Home"}}/>
           <stack.Screen name="ShopDetailes" component={ShopDetailes} />
 
 
