@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import {
-    FlatList,
-  ScrollView,
-  ToastAndroid,
+  FlatList,
+  Image,
   StyleSheet, Text,
   Dimensions,
-  TouchableOpacity, View
+  View
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import ShopDetailes from './ShopDetailes';
 
 const {width} = Dimensions.get('screen')
 
@@ -66,48 +64,71 @@ class ShopList extends Component {
   
     
 
-
-  
-  
-  
-
   render() {
     
      
     
     return (
-      <View style= {{ flex: 1,  alignItems: 'center',backgroundColor: 'white', fontWeight: 'bold'}} >
-       <Text 
-      />
+      
+      <View style= {{ flex: 1,  alignItems: 'center',backgroundColor: 'black'}} >
+      
 
-      <View style= {{flexDirection: 'row',justifyContent: 'space-between'}}>
-        <Text style= {{fontSize: 20, color: 'black',fontWeight: 'bold', marginLeft: 10, padding: 20}} > Coffee Location</Text>
+      <View style= {{flexDirection: 'row' ,padding:10}}>
+        <Text style= {{fontSize: 20, color: 'white',fontWeight: 'bold', marginLeft: 10, padding: 20}} > Coffee Location</Text>
       </View>
 
-      
 
+      <View style= {{width: width -30, height: width + 200,  backgroundColor: 'white',  borderRadius: 30,padding:20}}>
+     
 
-
-      <View  >
-      
-       <FlatList
+       <FlatList 
+                
                 nestedScrollEnabled
-                style={{fontWeight: 'bold', fontSize:100}}
+                
                 data={this.state.listData }
                 renderItem={({item}) => (
-                    <View>
-                      <Text onPress={() => this.props.navigation.navigate('ShopDetailes',{ location: item.location_id})}>{item.location_name} </Text>
-                     
+                    <View style= {{flexDirection: 'row', width: '65%',padding:10}}>
+
+                   
+                   <View style={{marginLeft:10}}>
+                      <Text style= {{ fontSize: 20,fontWeight: 'bold'}}
+                       onPress={() => this.props.navigation.navigate('ShopDetailes',{ location: item.location_id})}>
+                         {item.location_town }     {item.location_name} 
+                      </Text>
+                         
+
+                       <Image
+                          source={{uri: item.photo_path}}
+                          style={{width, height: 100}}></Image>
+                          <Text style= {[styles.input]}>Overall Rating:  {Math.round(item.avg_overall_rating*10)/10 }</Text>
+                          <Text style= {[styles.input]}>Price Rating:   {Math.round(item.avg_price_rating *10)/10}</Text>
+                          <Text style= {[styles.input]}>Quality Rating:  {Math.round(item.avg_quality_rating *10)/10}</Text>
+                          <Text style= {[styles.input]}>Clenliness Rating:  {Math.round(item.avg_clenliness_rating *10)/10}</Text>
+                          <Text style= {[styles.input]}>Likes:  {item.likes }</Text>
+                   
+                       </View>
+                       
+
+
                     </View>
                 )}
                 keyExtractor={(item) => item.location_id.toString()}
                 showsVerticalScrollIndicator
               />
 
-        
+
       </View>
       </View>
     )}
     
-}   
+}
+
+const styles = StyleSheet.create({
+  
+  input: {
+    fontSize: 15,
+     fontWeight: '700'
+  },
+})
+
 export default ShopList;
