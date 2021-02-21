@@ -45,7 +45,7 @@ class LoginScreen extends React.Component {
       })
       .then(async responseJson => {
         console.log('login successful ', responseJson)
-        ToastAndroid.show('Account Created', ToastAndroid.SHORT)
+        ToastAndroid.show('login successful', ToastAndroid.SHORT)
         await AsyncStorage.setItem('@session_token', responseJson.token)
         await AsyncStorage.setItem('@user_id', JSON.stringify(responseJson.id))
         this.props.navigation.navigate('HomeScreen')
