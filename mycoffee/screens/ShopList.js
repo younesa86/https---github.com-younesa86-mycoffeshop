@@ -4,7 +4,8 @@ import {
   Image,
   StyleSheet, Text,
   Dimensions,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -72,9 +73,14 @@ class ShopList extends Component {
       
       <View style= {{ flex: 1,  alignItems: 'center',backgroundColor: 'black'}} >
       
-
+      
       <View style= {{flexDirection: 'row' ,padding:10}}>
-        <Text style= {{fontSize: 20, color: 'white',fontWeight: 'bold', marginLeft: 10, padding: 20}} > Coffee Location</Text>
+      <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Search')}>
+              <Text style={{ width:100, height:100,fontSize: 30, }}> 🔎 </Text>
+       </TouchableOpacity>
+        <Text style= {{fontSize: 20, color: 'white',fontWeight: 'bold', marginLeft:-50, padding: 20}} > Coffee Location</Text>
+      
       </View>
 
 
@@ -85,7 +91,7 @@ class ShopList extends Component {
                 
                 nestedScrollEnabled
                 
-                data={this.state.listData }
+                data={this.state.listData|| []}
                 renderItem={({item}) => (
                     <View style= {{flexDirection: 'row', width: '65%',padding:10}}>
 
@@ -100,11 +106,12 @@ class ShopList extends Component {
                        <Image
                           source={{uri: item.photo_path}}
                           style={{width, height: 100}}></Image>
+                           <Text style= {[styles.input]}>Lat:   {item.latitude }</Text>
+                           <Text style= {[styles.input]}>Long:   {item.longitude }</Text>
                           <Text style= {[styles.input]}>Overall Rating:  {Math.round(item.avg_overall_rating*10)/10 }</Text>
                           <Text style= {[styles.input]}>Price Rating:   {Math.round(item.avg_price_rating *10)/10}</Text>
                           <Text style= {[styles.input]}>Quality Rating:  {Math.round(item.avg_quality_rating *10)/10}</Text>
                           <Text style= {[styles.input]}>Clenliness Rating:  {Math.round(item.avg_clenliness_rating *10)/10}</Text>
-                          <Text style= {[styles.input]}>Likes:  {item.likes }</Text>
                    
                        </View>
                        
