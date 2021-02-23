@@ -39,7 +39,6 @@ class SignupScreen extends Component {
       }
     })
     .then(async (responseJson) => {
-      console.log("User created with ID: ", responseJson);
       ToastAndroid.show("Account Created", ToastAndroid.SHORT);
       this.props.navigation.navigate('LoginScreen')
     })
