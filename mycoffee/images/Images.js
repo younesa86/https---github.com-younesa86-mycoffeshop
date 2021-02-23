@@ -1,5 +1,7 @@
 const images = {
     coffee: require('../images/coffee.jpg'),
+    commet: require('../images/commet.jpg'),
+   
 }
 
 
