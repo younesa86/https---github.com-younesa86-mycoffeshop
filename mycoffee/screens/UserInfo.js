@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
 import {
-  ScrollView,
+  StyleSheet,
   ToastAndroid,
-   Text,
-  TextInput,
-  TouchableOpacity, View
+  Dimensions, Text,
+  FlatList,
+  Image, View
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+const {width, height} = Dimensions.get('screen')
 
-
-class UpdateUser extends Component {
+class UserInfo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      first_name: "",
-      last_name: "",
-      email: "",
-    
-       
-
-
+     
+      userData: {},
     }
   }
 
@@ -35,6 +30,7 @@ class UpdateUser extends Component {
       
     let user_Id= await AsyncStorage.getItem('@user_id');
     let token = await AsyncStorage.getItem('@session_token');
+    
     return fetch("http://10.0.2.2:3333/api/1.0.0/user/" + user_Id, {
       method: 'get',
       headers: {
@@ -47,108 +43,106 @@ class UpdateUser extends Component {
     .then((response) => {
         if(response.status === 200) {
             return response.json()
+            
         }else {
             throw 'Something went wrong';
         }
     })
     .then(async (responseJson) => {
-        this.setState({"first_name": responseJson.first_name})
-        this.setState({"last_name": responseJson.last_name})
-        this.setState({"email": responseJson.email})
+      
+        this.setState({userData: responseJson})
+        this.setState({data: responseJson})
+        
+      
       })
       .catch((error) => {
         console.log(error);
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        
       })
 
     
   }
-
-
-
-
-  
   
 
   render() {
+     const {userData} = this.state
+     
+    
     
     return (
-      <View>
-        <ScrollView>
-          <Text style= {{  color: 'steelblue',
-                          backgroundColor: 'lightblue',
-                          padding: 10,
-                          fontSize: 25,}}>User Information</Text>
+      
+      <View style= {{ flex: 1, backgroundColor: 'black', alignItems: 'center',}} >
 
-          <View style={{padding: 20}}>
-            <Text style={{fontSize: 15,
-                          color: 'steelblue'}}>First Name:</Text>
-            <TextInput
-             
-              style={{borderWidth: 1,
-                      borderColor: 'lightblue',
-                      borderRadius: 5}}
-              onChangeText={(first_name) => this.setState({first_name})}
-              value={this.state.first_name}
-            />
-          </View>
-
-          <View style={{padding: 20}}>
-            <Text style={{fontSize: 15,
-                          color: 'steelblue'}}>Last Name:</Text>
-            <TextInput
-             
-              style={{borderWidth: 1,
-                      borderColor: 'lightblue',
-                      borderRadius: 5}}
-              onChangeText={(last_name) => this.setState({last_name})}
-              value={this.state.last_name}
-            />
-          </View>
-
-          <View style={{padding: 20}}>
-            <Text style={{fontSize: 15,
-                          color: 'steelblue'}}>Email:</Text>
-            <TextInput
-             
-              style={{borderWidth: 1,
-                      borderColor: 'lightblue',
-                      borderRadius: 5}}
-              onChangeText={(email) => this.setState({email})}
-              value={this.state.email}
-            />
-          </View>
-
-          <View style={{padding: 20}}>
-            <Text style={{fontSize: 15,
-                          color: 'steelblue'}}>Password:</Text>
-            <TextInput
-             
-              style={styles.formInput}
-              secureTextEntry
-              onChangeText={(password) => this.setState({password})}
-              value={this.state.password}
-            />
-          </View>
-
-          <View style={{padding: 20}}>
-            <TouchableOpacity
-              style={{backgroundColor: 'lightblue',
-                      padding: 10,
-                      alignItems: 'center'}}
-              onPress={ this.editInfo}
-              >
-              <Text style={{fontSize: 20,
-                            fontWeight: 'bold',
-                            color: 'steelblue'}}>save</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+      <View style= {{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style= {[ styles.textinfo,  {marginLeft: 10, padding: 20}]} > User Profile</Text>
       </View>
-    );
-  }
+
+      <View style= {{width: width -30, height: width + 150,  backgroundColor: 'white', padding: 30, borderRadius: 30}}>
+        
+        <View>
+          
+          <Text style={ styles.textinfo }> Name: {userData.first_name} {userData.last_name}</Text>
+          <Text style={ styles.textinfo}> Email: {userData.email}</Text>
+
+        </View>
+
+        
+       <FlatList
+                
+                data={userData.favourite_locations}
+                renderItem={({item}) => (
+                    <View>
+                    <View style= {{flexDirection: 'row',marginTop:10}}/>
+                
+                <Text style={ styles.textinfo}>
+                  { item.location_name }  {item.location_id}   {item.location_town}</Text>
+                
+                    
+                  <Image source = {{uri: item.photo_path}}
+                      style = {{width, height: height*0.2}}/> 
+                      
+                      <Text style= { styles.textinfo}>OverallRating: {Math.round(item.avg_overall_rating *10)/10 }</Text>
+                      <Text style= { styles.textinfo}> Price Rating:  {Math.round(item.avg_price_rating *10)/10 }</Text>
+                      <Text style= { styles.textinfo}>Quality Rating:  {Math.round(item.avg_quality_rating *10)/10 }</Text>
+                      <Text style= { styles.textinfo}>Clenliness Rating:  {Math.round(item.avg_clenliness_rating *10)/10 }</Text>
+                      {/* <Text style= { styles.textinfo}>Review:  {item.review.review_body }</Text>
+                      <Text style= { styles.textinfo}>Likes:  {item.review.likes }</Text>
+                      */}
+                  
+
+                     
+                      
+                    </View>
+                )}
+                keyExtractor={(item,index) => item.location_id.toString()} 
+              />
+
+             
+
+
+      
+
+       </View>
+
+      </View>
+    )}
+  
+
+
 }
 
+const styles = StyleSheet.create( {
+  textinfo : {
+     fontSize: 20, color: 'black', padding:2
+    
+  }
 
 
-export default UpdateUser;
+})
+
+export default UserInfo;
+
+
+
+
+
