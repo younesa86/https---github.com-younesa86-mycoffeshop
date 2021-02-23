@@ -10,6 +10,8 @@ import UserScreen from './screens/UserScreen';
 import ShopList from './screens/ShopList';
 import UserFavourite from './screens/UserFavourite';
 import ShopDetailes from './screens/ShopDetailes';
+import userinfo from './screens/UserInfo';
+import  Search from './screens/Search';
 
 
 
@@ -38,6 +40,8 @@ class App extends React.Component{
           <stack.Screen name="ShopList" component={ShopList} options={{title:"Home"}}/>
           <stack.Screen name="UserFavourite" component={UserFavourite} options={{title:"Home"}}/>
           <stack.Screen name="ShopDetailes" component={ShopDetailes} />
+          <stack.Screen name="userinfo" component={userinfo} />
+          <stack.Screen name="Search" component={Search} />
 
 
         </stack.Navigator>
