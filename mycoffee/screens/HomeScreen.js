@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import {Text, View, StatusBar, Dimensions , StyleSheet, TouchableOpacity} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const {width,height} = Dimensions.get('screen')
 class HomeScreen extends Component {
 
 
@@ -32,20 +31,18 @@ class HomeScreen extends Component {
   }
 
 
-  renderhistory =(index) => {
-    return <ShopComponent {...index.item} data= {data} />
-  }
+  // renderhistory =(index) => {
+  //   return <ShopComponent {...index.item} data= {data} />
+  // }
 
   render () {
     return (
       <View
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor:'black',  alignItems: 'center',
         }}>
-        <Text>Wellcome to my Coffida</Text>
+        
+        <Text style={{fontSize:20, color: 'white'}}>Wellcome to my Coffida</Text>
+        
 
         <View style={styles.formItem}>
           <TouchableOpacity
@@ -75,6 +72,14 @@ class HomeScreen extends Component {
             <TouchableOpacity
               style={styles.formTouch}
               onPress={() => this.props.navigation.navigate('UserFavourite')}>
+              <Text style={styles.formTouchText}>User Activity</Text>
+            </TouchableOpacity>
+            
+          </View>
+          <View style={styles.formItem}>
+            <TouchableOpacity
+              style={styles.formTouch}
+              onPress={() => this.props.navigation.navigate('userinfo')}>
               <Text style={styles.formTouchText}>User Favourite</Text>
             </TouchableOpacity>
             
@@ -86,14 +91,16 @@ class HomeScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
-  formItem: {
-    padding: 20,
+  formTouchText:{
+    fontSize:20,
+    color:'white'
+    
   },
 
   formTouch: {
-    backgroundColor: 'white',
-    padding: 10,
-    fontSize: 20,
+    
+    padding: 20,
+    
     alignItems: 'center',
   },
 })
