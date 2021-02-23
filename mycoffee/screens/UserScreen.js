@@ -86,7 +86,7 @@ class UpdateUser extends Component {
         }
     })
     .then(async (responseJson) => {
-     
+      ToastAndroid.show("Update info Successful", ToastAndroid.SHORT);
         console.log("Update info Successful",responseJson);
 
       })
