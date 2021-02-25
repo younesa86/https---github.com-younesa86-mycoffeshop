@@ -36,6 +36,8 @@ class ShopDetailes extends Component {
       reviewbody:'',
       photo:'',
       userinfo:{},
+      liked_reviews:[],
+     myreview:[]
       
     };
   }
@@ -97,8 +99,10 @@ class ShopDetailes extends Component {
     })
     .then(async (responseJson) => {
      this.setState({userinfo:responseJson}) 
-       
-      })
+     this.setState({"liked_reviews": responseJson.liked_reviews})
+     this.setState({"myreview": responseJson})
+
+    })
       .catch((error) => {
         console.log(error);
         
@@ -107,35 +111,170 @@ class ShopDetailes extends Component {
     
   }
 
-  // like and unlike review
-  likereview = async (review_id, islike) => {
-    let loc_id = this.props.route.params.location
+  // like  review
+  likereview = async (rev_id) => {
+    const loc_id = this.props.route.params.location
     this.state.location_id = loc_id
+   // const {details} =this.state
+   // const{liked_reviews} = this.state.userinfo
+   
+    
+      
+
     
     let token = await AsyncStorage.getItem('@session_token')
-    return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review'+ review_id+ '/like', {
-      method: 'post',
+      return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id+ '/like', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-authorization': token,
+        },
+       
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log('liked')
+            this.getinfo()
+            this.getLocation()
+            ToastAndroid.show('liked', ToastAndroid.show);
+           
+          } else {
+            
+            throw 'Something went wrong'
+          }
+        })
+        
+        .catch(error => {
+          console.log(error)
+        })
+  
+    
+  
+  }
+
+  //unlike review
+  unlikereview = async (rev_id) => {
+    const loc_id = this.props.route.params.location
+    this.state.location_id = loc_id
+   
+    
+      
+
+    
+    let token = await AsyncStorage.getItem('@session_token')
+      return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id+ '/like', {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-authorization': token,
+        },
+       
+      })
+        .then(response => {
+          if (response.status === 200) {
+            this.getinfo()
+            console.log('unlike')
+            this.getLocation()
+            /ToastAndroid.show('unlike', ToastAndroid.show);
+           
+          } else {
+            
+            throw 'Something went wrong'
+          }
+        })
+        
+        .catch(error => {
+          console.log(error)
+        })
+  
+    
+  
+  }
+  chickliked(rev_id) {
+    
+    for (let i= 0; i< this.state.liked_reviews.length; i++) {
+      if(this.state.liked_reviews[i].review.review_id === rev_id)
+      return true;
+    }
+
+    
+      return false;
+    
+  }
+
+  likeDislike(rev_id){
+    if(this.chickliked(rev_id)===true){
+      this.unlikereview(rev_id);
+    }
+    else{
+      this.likereview(rev_id);
+    }
+  }
+
+// delete a review
+deletereview = async (rev_id) => {
+    let loc_id = this.props.route.params.location
+    this.state.location_id = loc_id
+  //  const {reviews} = this.state.info
+  
+    let token = await AsyncStorage.getItem('@session_token')
+    return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id, {
+      method: 'delete',
       headers: {
-        'Content-Type': 'application/json',
+      //  'Content-Type': 'application/json',
         'x-authorization': token,
       },
+     // body: JSON.stringify(send),
     })
       .then(response => {
         if (response.status === 200) {
-          //return response.json()
+          console.log('delete review')
+
+          ToastAndroid.show('your review was deleted', ToastAndroid.show);
+      
         } else {
-          
-          throw 'Something went wrong'
+         // throw 'Something went wrong'
+          ToastAndroid.show('Sorry, your can not delete another user review ', ToastAndroid.show);
+
         }
       })
       .then(async responseJson => {
-        this.setState({details: responseJson})
+        console.log('done')
+        this.getLocation(loc_id)
+        this.getinfo()
+        
       })
       .catch(error => {
         console.log(error)
-      })    
-    
+      })
+  
+
+
+}
+
+// check review
+checkreview(rev_id) {
+  for (let i = 0; i < this.state.myreview.length; i++) {
+    if(this.state.myreview.reviews[i].review.review_id ==rev_id){
+        
+    // this.setState ({
+    //   getthisreview: this.setState.addreview.reviews[i].review
+    // })
+
+    }
+    return true;
+
+  }  
+  return false;
+
+}
+checkDelete(rev_id)
+{
+  if(this.checkreview(rev_id))
+  {
+    this.deletereview(rev_id);
   }
+}
 
   
   //Add review
@@ -293,11 +432,12 @@ class ShopDetailes extends Component {
   // };
   
   render () {
-    const {details} = this.state
-    const{favourite_locations} = this.state.userinfo
+    const {favourite_locations} =this.state
+    const {details,myreview } = this.state
+    let rev_id = this.state
     return (
       <View style={{flex: 1, backgroundColor: 'black',}}>
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row'}}>  
       <Text style={[styles.input, ]}>Overall:</Text>
       <AirbnbRating
         size={5}
@@ -430,6 +570,7 @@ class ShopDetailes extends Component {
                 nestedScrollEnabled
                // style={{maxHeight: 75*5}}
                 data={details.location_reviews}
+
                 renderItem={({item}) => (
                 
                   
@@ -443,7 +584,8 @@ class ShopDetailes extends Component {
                 </View>
 
                 <View style={{flexDirection: 'row',}}>
-                    <Text style={[styles.input, {width: 130, marginLeft:30}]}>{item.overall_rating}</Text>
+                    <Text style={[styles.input, {width: 130, marginLeft:30}]}>
+                    {item.overall_rating}</Text>
                 <Text style={[styles.input, {width: 130, marginLeft: -40}]}>{item.price_rating}</Text>
                 <Text style={[styles.input, {width: 130, marginLeft: -70}]}>{item.quality_rating}</Text>
                 <Text style={[styles.input, {width: 130, marginLeft: -50}]}>{item.clenliness_rating}</Text>
@@ -464,7 +606,28 @@ class ShopDetailes extends Component {
                     
 
                   </View>
-  
+
+                  
+                  <TouchableOpacity
+                      onPress={ () =>this.likeDislike(item.review_id)}>
+                       <Text style={{marginLeft: 20, width:20, height:20}} >
+                       {this.chickliked(item.review_id)? '💗':'🤍' }
+                         
+                        </Text>
+
+              
+              </TouchableOpacity>
+
+              <TouchableOpacity
+             onPress={ () =>this.deletereview(item.review_id)}>
+              <Text style={{marginLeft: 20, width:160}} > prss X if that your review
+
+              {this.checkreview(item.review_id) =='x'}
+                                
+              </Text>
+
+              
+              </TouchableOpacity>
                  
 
                  
