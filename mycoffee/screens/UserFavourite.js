@@ -51,7 +51,7 @@ class UserFavourite extends Component {
     .then(async (responseJson) => {
       
         this.setState({userData: responseJson})
-        this.setState({data: responseJson})
+     //   this.setState({data: responseJson})
         
       
       })
@@ -62,6 +62,9 @@ class UserFavourite extends Component {
 
     
   }
+
+  // delete user reviews
+  
   
 
   render() {

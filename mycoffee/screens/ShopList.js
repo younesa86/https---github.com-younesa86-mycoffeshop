@@ -19,7 +19,7 @@ class ShopList extends Component {
 
     this.state = {
       
-      listData: []
+      listData: null
 
     }
   }

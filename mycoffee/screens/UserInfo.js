@@ -51,7 +51,7 @@ class UserInfo extends Component {
     .then(async (responseJson) => {
       
         this.setState({userData: responseJson})
-        this.setState({data: responseJson})
+     //   this.setState({data: responseJson})
         
       
       })
