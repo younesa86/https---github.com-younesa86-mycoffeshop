@@ -39,7 +39,7 @@ class Search extends Component {
   componentDidMount () {
     this.getLocation();
    
-  };
+  }
  
   // get the location info
   getLocation = async () => {
@@ -49,13 +49,13 @@ class Search extends Component {
     return fetch('http://10.0.2.2:3333/api/1.0.0/find' , {
       method: 'get',
       headers: {
-        'Content-Type': 'application/json',
+        
         'x-authorization': token,
       },
     })
       .then(response => {
         if (response.status === 200) {
-            console.log("i am in")
+            console.log("i am in search")
           return response.json()
          
         } else {
@@ -65,6 +65,7 @@ class Search extends Component {
       })
       .then(async responseJson => {
         this.setState({details: responseJson})
+        console.log("123")
       })
       .catch(error => {
         console.log(error)
@@ -74,16 +75,26 @@ class Search extends Component {
 
   // search function
   Search =() => {
-      let url = "http://10.0.2.2:3333/api/1.0.0/find?"
-      console.log(" i am here"+this.state.q)
+      let url = "fetch?"
+      console.log(+this.state.q)
+      console.log(this.price_rating)
       
       if (this.state.q != '') {
-          url += "q" + this.state.q + "&";
+        url += "q=" + this.state.q + "&";
       }
        if (this.state.overall_rating >0) {
-           url += "overall_rating" + this.state.overall_rating + "&"
+        url += "overall_rating=" + this.state.overall_rating + "&";
        }
-       this.getLocation();
+       if (this.state.price_rating >0) {
+        url += "price_rating=" + this.state.price_rating + "&";
+       }
+       if (this.state.quality_rating >0) {
+        url += "quality_rating=" + this.state.quality_rating + "&";
+       }
+       if (this.state.clenliness_rating >0) {
+        url += "clenliness_rating=" + this.state.clenliness_rating + "&";
+       }
+       this.getLocation(url);
   }
  
     
@@ -92,19 +103,19 @@ class Search extends Component {
 
   //rating function
  ratingCompleted = (rating, type) => {
-   if (type === 1) this.setState ({overallRating: rating})
-   else if (type === 2) this.setState({priceRating:rating})
-   else if (type === 3) this.setState({qualityRating: rating})
-   else if (type === 4) this.setState({clenlinessRating:rating})
+   if (type === 1) this.setState ({overall_rating: rating})
+   else if (type === 2) this.setState({price_rating:rating})
+   else if (type === 3) this.setState({quality_rating: rating})
+   else if (type === 4) this.setState({clenliness_rating:rating})
  }
  
   
   render () {
-    const {details} = this.state
+   // const {details} = this.state
     return (
       <View style={{flex: 1, backgroundColor: 'black',}}>
       <View style={{flexDirection:'row'}}>
-      <Text style={[styles.input,  ]}>Search: </Text>
+      <Text style={[styles.input]}>Search: </Text>
      
       </View>
 
@@ -113,7 +124,7 @@ class Search extends Component {
           <TextInput
                 placeholder='Enter your search...'
                 style={styles.formInput}
-                onChangeText={(q) => this.setState({q: q})}
+                onChangeText={(q) => this.setState({ q:q})}
                 value={this.state.q}
               />
        
@@ -180,18 +191,19 @@ class Search extends Component {
               
              
              
-              onPress={ this.Search}
-            ><Text style={{fontSize: 20, fontWeight: 'bold',
+               onPress={ () => {this.Search()}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold',
             color:'white', padding: 10}}>Search</Text>
 
             </TouchableOpacity>
-
-              </View>
-                <View style= {{width, height: width + 200,  backgroundColor: 'white',  borderRadius: 30,padding:20}}>
+            </View>
+            <View style= {{width, height: width ,  backgroundColor: 'white',  borderRadius: 30,padding:20}}>
+              
+               
 
                 <FlatList
                 nestedScrollEnabled
-                    data= {details}
+                    data= {this.state.details}
                     renderItem= {({item}) => (
                          <View style= {{flexDirection: 'row', width: '65%',padding:20}}>
 
@@ -203,10 +215,15 @@ class Search extends Component {
                      
                            <Text style= {[styles.input1]}>ID:   {item.location_id }</Text>
                            <Text style= {[styles.input1]}>Name:   {item.location_name }</Text>
-                          <Text style= {[styles.input1]}>Overall Rating:  {Math.round(item.avg_overall_rating*10)/10 }</Text>
-                          <Text style= {[styles.input1]}>Price Rating:   {Math.round(item.avg_price_rating *10)/10}</Text>
-                          <Text style= {[styles.input1]}>Quality Rating:  {Math.round(item.avg_quality_rating *10)/10}</Text>
-                          <Text style= {[styles.input1]}>Clenliness Rating:  {Math.round(item.avg_clenliness_rating *10)/10}</Text>
+                          <Text style= {[styles.input1]}>Overall:
+                          {<AirbnbRating
+                               size={7} rating={item.avg_overall_rating } />}</Text>
+                          <Text style= {[styles.input1]}>Price:   
+                          <AirbnbRating  size={5} rating={item.avg_price_rating } /></Text>
+                          <Text style= {[styles.input1]}>Quality:  
+                          <AirbnbRating size={5} rating={item.avg_quality_rating } /></Text>
+                          <Text style= {[styles.input1]}>Clenliness:  
+                          <AirbnbRating size={5} rating={item.avg_clenliness_rating } /></Text>
                    
                        </View>
                        
