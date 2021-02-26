@@ -4,6 +4,7 @@ import {
   ToastAndroid,
   Dimensions, Text,
   FlatList,
+  TouchableOpacity,
   Image, View
 } from 'react-native';
 
@@ -63,7 +64,53 @@ class UserFavourite extends Component {
     
   }
 
-  // delete user reviews
+  editreview = async (rev_id) => {
+    const {reviewbody, overallRating,priceRating,qualityRating,clenlinessRating} =this.state
+    let loc_id = this.props.route.params.location
+    this.state.location_id = loc_id
+    let send ={
+      'overall_rating':overallRating,
+      'price_rating':priceRating,
+      'quality_rating':qualityRating,
+      'clenliness_rating':clenlinessRating,
+      'review_body':reviewbody
+
+    }
+    
+    
+
+     if (!reviewbody && !reviewbody && !priceRating && !qualityRating && !clenlinessRating)
+     ToastAndroid.show('please review', ToastAndroid.SHORT)
+     if (this.checkword(reviewbody)){
+    let token = await AsyncStorage.getItem('@session_token')
+    return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id, {
+      method: 'patch',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-authorization': token,
+      },
+      body: JSON.stringify(send),
+    })
+      .then(response => {
+        if (response.status === 200) {
+
+        
+        } else {
+        }
+      })
+      .then(async responseJson => {
+
+
+        this.getinfo()
+        
+      })
+      .catch(error => {
+        console.log(error)
+      })
+     }else {
+       ToastAndroid.show('Sorry, review can not have a tea or cake or pastries',ToastAndroid.SHORT)
+     }
+  }
   
   
 
@@ -110,6 +157,13 @@ class UserFavourite extends Component {
                       <Text style= { styles.textinfo}>Clenliness Rating:  {Math.round(item.review.clenliness_rating *10)/10 }</Text>
                       <Text style= { styles.textinfo}>Review:  {item.review.review_body }</Text>
                       <Text style= { styles.textinfo}>Likes:  {item.review.likes }</Text>
+                      <TouchableOpacity 
+                        style= { styles.formInput}
+                      onPress={ ()=> this.props.navigation.navigate('EditReviews',{location_id: item.location.location_id, review_id: item.review.review_id})}
+                      >
+                      <Text>Edit Review</Text>
+
+                      </TouchableOpacity>
                      
                   
 
@@ -138,6 +192,22 @@ const styles = StyleSheet.create( {
   textinfo : {
      fontSize: 20, color: 'black', padding:2
     
+  },
+  formInput: {
+    
+    borderWidth: 2,
+    borderStartWidth: 50,
+    fontSize: 15,
+    fontWeight: 'bold',
+    borderRadius: 20,
+    borderTopColor:'black',
+    borderBottomColor: 'black',
+    borderEndColor:'black',
+    borderRightColor:'black',
+    borderLeftColor:'black',
+    color:'white',
+    //backgroundColor:'white',
+    width: 300
   }
 
 
