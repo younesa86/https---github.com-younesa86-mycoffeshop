@@ -10,22 +10,21 @@ import {
   ToastAndroid,
   FlatList,
 } from 'react-native';
-//import Icon from 'react-native-vector-icons/FontAwesome';
-//import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
-import StarRating from 'react-native-star-rating';
 
-import {Rating, AirbnbRating} from 'react-native-ratings';
+
+import { AirbnbRating} from 'react-native-ratings';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const {width, height} = Dimensions.get('screen')
+const {width} = Dimensions.get('screen')
 
 class Search extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      details: {},
+
+      locations_detail: [],
       overall_rating: 0,
       price_rating: 0,
       quality_rating: 0,
@@ -36,13 +35,10 @@ class Search extends Component {
     };
   }
 
-  componentDidMount () {
-    this.getLocation();
-   
-  }
  
-  // get the location info
-  getLocation = async () => {
+ 
+  // get all locations 
+  getall_Location = async () => {
    
     
     let token = await AsyncStorage.getItem('@session_token')
@@ -55,7 +51,6 @@ class Search extends Component {
     })
       .then(response => {
         if (response.status === 200) {
-            console.log("i am in search")
           return response.json()
          
         } else {
@@ -64,8 +59,7 @@ class Search extends Component {
         }
       })
       .then(async responseJson => {
-        this.setState({details: responseJson})
-        console.log("123")
+        this.setState({locations_detail: responseJson})
       })
       .catch(error => {
         console.log(error)
@@ -73,9 +67,12 @@ class Search extends Component {
   };
 
 
+
+// }
   // search function
   Search =() => {
-      let url = "fetch?"
+
+      let url = 'http://10.0.2.2:3333/api/1.0.0/find?'; 
       console.log(+this.state.q)
       console.log(this.price_rating)
       
@@ -94,7 +91,7 @@ class Search extends Component {
        if (this.state.clenliness_rating >0) {
         url += "clenliness_rating=" + this.state.clenliness_rating + "&";
        }
-       this.getLocation(url);
+       this.getall_Location(url);
   }
  
     
@@ -111,7 +108,7 @@ class Search extends Component {
  
   
   render () {
-   // const {details} = this.state
+   // const {locations_detail} = this.state
     return (
       <View style={{flex: 1, backgroundColor: 'black',}}>
       <View style={{flexDirection:'row'}}>
@@ -203,7 +200,7 @@ class Search extends Component {
 
                 <FlatList
                 nestedScrollEnabled
-                    data= {this.state.details}
+                    data= {this.state.locations_detail}
                     renderItem= {({item}) => (
                          <View style= {{flexDirection: 'row', width: '65%',padding:20}}>
 
@@ -215,15 +212,18 @@ class Search extends Component {
                      
                            <Text style= {[styles.input1]}>ID:   {item.location_id }</Text>
                            <Text style= {[styles.input1]}>Name:   {item.location_name }</Text>
-                          <Text style= {[styles.input1]}>Overall:
-                          {<AirbnbRating
-                               size={7} rating={item.avg_overall_rating } />}</Text>
+                           <Text style= {[styles.input1]}>Name:   {item.loccation_town }</Text>
+
+
+                          {/* <Text style= {[styles.input1]}>Overall:
+                          <AirbnbRating
+                               size={7} rating={item.avg_overall_rating } /></Text>
                           <Text style= {[styles.input1]}>Price:   
                           <AirbnbRating  size={5} rating={item.avg_price_rating } /></Text>
                           <Text style= {[styles.input1]}>Quality:  
                           <AirbnbRating size={5} rating={item.avg_quality_rating } /></Text>
                           <Text style= {[styles.input1]}>Clenliness:  
-                          <AirbnbRating size={5} rating={item.avg_clenliness_rating } /></Text>
+                          <AirbnbRating size={5} rating={item.avg_clenliness_rating } /></Text> */}
                    
                        </View>
                        
