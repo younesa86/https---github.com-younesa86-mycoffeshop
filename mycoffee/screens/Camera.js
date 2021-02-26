@@ -21,7 +21,7 @@ class Camera extends Component {
       <View style={{flex: 1, width: '100%'}}>
         <RNCamera
           ref={ref => {
-            this.camera = ref
+            this.camera = ref;
           }}
           style={styles.preview}
           captureAudio={false}
