@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   View,
-  ToastAndroid,
+  
   FlatList,
 } from 'react-native'
 
@@ -27,11 +27,17 @@ class Search extends Component {
       quality_rating: 0,
       clenliness_rating: 0,
       q: '',
+      numberofpage:0,
+      count: ''
     }
   }
 
-  // get all locations
-  getall_Location = async () => {
+
+  
+  
+
+  // searchfor
+  searchfor = async () => {
     let token = await AsyncStorage.getItem('@session_token')
     return fetch('http://10.0.2.2:3333/api/1.0.0/find', {
       method: 'get',
@@ -55,11 +61,9 @@ class Search extends Component {
   }
 
   // }
-  // search function
-  Search = () => {
-    let url = 'http://10.0.2.2:3333/api/1.0.0/find?'
-    console.log(+this.state.q)
-    console.log(this.price_rating)
+  // check the search 
+  Search = async (numberofpages) => {
+    let url = 'fetch?'
 
     if (this.state.q != '') {
       url += 'q=' + this.state.q + '&'
@@ -76,7 +80,35 @@ class Search extends Component {
     if (this.state.clenliness_rating > 0) {
       url += 'clenliness_rating=' + this.state.clenliness_rating + '&'
     }
-    this.getall_Location(url)
+    this.getall_Location(url);
+    await this.setState({'numberofpage': numberofpages})
+    let offset =numberofpages*3;
+    url += 'offset=' +offset + '&limit=' +3;
+    this.searchfor()
+  }
+
+  // get all locations
+  getall_Location = async (url) => {
+    let token = await AsyncStorage.getItem('@session_token')
+    return fetch(url+  '&limit=' +20, {
+      method: 'get',
+      headers: {
+        'x-authorization': token,
+      },
+    })
+      .then(response => {
+        if (response.status === 200) {
+          return response.json()
+        } else {
+          throw 'Something went wrong'
+        }
+      })
+      .then(async responseJson => {
+        this.setState({'count': responseJson.length})
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   //rating function
@@ -100,7 +132,13 @@ class Search extends Component {
             <TextInput
               placeholder='Enter your search...'
               style={styles.formInput}
-              onChangeText={q => this.setState({q: q})}
+              onChangeText={async(q) => {
+                await this.setState({q})
+                return(this.Search(0))
+                .catch((error) => {
+                  console.log(error);
+                })
+              }}
               value={this.state.q}
             />
           </View>
@@ -125,6 +163,7 @@ class Search extends Component {
           <AirbnbRating
             size={10}
             defaultRating={0}
+
             onFinishRating={rating => this.ratingCompleted(rating, 1)}
           />
           <View style={{marginLeft: 15}}>
@@ -153,8 +192,9 @@ class Search extends Component {
         <View style={{flexDirection: 'row', marginLeft: 130, padding: 20}}>
           <TouchableOpacity
             onPress={() => {
-              this.Search()
+              this.state.numberofpage ===0? '' : this.Search(this.state.numberofpage-1)
             }}>
+
             <Text
               style={{
                 fontSize: 20,
@@ -162,7 +202,7 @@ class Search extends Component {
                 color: 'white',
                 padding: 10,
               }}>
-              Search
+              {this.state.numberofpage ===0?'1>':'back'}
             </Text>
           </TouchableOpacity>
         </View>
