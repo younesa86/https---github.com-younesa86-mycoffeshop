@@ -66,7 +66,7 @@ class ShopList extends Component {
     
 
   render() {
-    
+  //  const listData= this.state
      
     
     return (
@@ -76,7 +76,8 @@ class ShopList extends Component {
       
       <View style= {{flexDirection: 'row' ,padding:10}}>
       <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Search')}>
+             onPress={() => this.props.navigation.navigate('Search')}>
+
               <Text style={{ width:100, height:100,fontSize: 30, }}> 🔎 </Text>
        </TouchableOpacity>
         <Text style= {{fontSize: 20, color: 'white',fontWeight: 'bold', marginLeft:-50, padding: 20}} > Coffee Location</Text>
@@ -100,12 +101,14 @@ class ShopList extends Component {
                       <Text style= {{ fontSize: 20,fontWeight: 'bold'}}
                        onPress={() => this.props.navigation.navigate('ShopDetailes',{ location: item.location_id})}>
                          {item.location_town }     {item.location_name} 
+                         
                       </Text>
                          
 
                        <Image
                           source={{uri: item.photo_path}}
-                          style={{width, height: 100}}></Image>
+                          style={{width, height: 100}}
+                          ></Image>
                            <Text style= {[styles.input]}>Lat:   {item.latitude }</Text>
                            <Text style= {[styles.input]}>Long:   {item.longitude }</Text>
                           <Text style= {[styles.input]}>Overall Rating:  {Math.round(item.avg_overall_rating*10)/10 }</Text>
