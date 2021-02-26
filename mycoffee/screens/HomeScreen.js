@@ -2,14 +2,8 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
 class HomeScreen extends Component {
-
-
-  componentDidMount() {
-
-  }
-
+  componentDidMount () {}
 
   //logout function
   cleardata = async () => {
@@ -30,19 +24,21 @@ class HomeScreen extends Component {
     })
   }
 
-
-  // renderhistory =(index) => {
-  //   return <ShopComponent {...index.item} data= {data} />
-  // }
+ 
 
   render () {
     return (
       <View
-        style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor:'black',  alignItems: 'center',
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+          alignItems: 'center',
         }}>
-        
-        <Text style={{fontSize:20, color: 'white'}}>Wellcome to my Coffida</Text>
-        
+        <Text style={{fontSize: 20, color: 'white'}}>
+          Wellcome to my Coffida
+        </Text>
 
         <View style={styles.formItem}>
           <TouchableOpacity
@@ -57,7 +53,6 @@ class HomeScreen extends Component {
               onPress={() => this.props.navigation.navigate('UserScreen')}>
               <Text style={styles.formTouchText}>UserInfo</Text>
             </TouchableOpacity>
-            
           </View>
           <View style={styles.formItem}>
             <TouchableOpacity
@@ -65,7 +60,6 @@ class HomeScreen extends Component {
               onPress={() => this.props.navigation.navigate('ShopList')}>
               <Text style={styles.formTouchText}>shops</Text>
             </TouchableOpacity>
-            
           </View>
 
           <View style={styles.formItem}>
@@ -74,7 +68,6 @@ class HomeScreen extends Component {
               onPress={() => this.props.navigation.navigate('UserFavourite')}>
               <Text style={styles.formTouchText}>User Activity</Text>
             </TouchableOpacity>
-            
           </View>
           <View style={styles.formItem}>
             <TouchableOpacity
@@ -82,25 +75,21 @@ class HomeScreen extends Component {
               onPress={() => this.props.navigation.navigate('userinfo')}>
               <Text style={styles.formTouchText}>User Favourite</Text>
             </TouchableOpacity>
-            
           </View>
-
         </View>
       </View>
     )
   }
 }
 const styles = StyleSheet.create({
-  formTouchText:{
-    fontSize:20,
-    color:'white'
-    
+  formTouchText: {
+    fontSize: 20,
+    color: 'white',
   },
 
   formTouch: {
-    
     padding: 20,
-    
+
     alignItems: 'center',
   },
 })

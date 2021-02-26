@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {
-  
   TouchableOpacity,
   ToastAndroid,
   StyleSheet,
@@ -58,38 +57,37 @@ class LoginScreen extends React.Component {
 
   render () {
     return (
-      
       <View style={{alignItems: 'center', flex: 1, justifyContent: 'flex-end'}}>
         <ImageBackground
-                      style={{
-                        justifyContent: 'space-between',
-                        width,
-                        height: height,
-                        alignItems: 'center',
-                      }}source={images.coffee}>
-                <View
-                  style={{
-                    width: width,
-                    height: 350,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{fontSize: 30, color: 'white'}}>
-                    My Coffida Project
-                  </Text>
-                </View>
+          style={{
+            justifyContent: 'space-between',
+            width,
+            height: height,
+            alignItems: 'center',
+          }}
+          source={images.coffee}>
+          <View
+            style={{
+              width: width,
+              height: 350,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 30, color: 'white'}}>
+              My Coffida Project
+            </Text>
+          </View>
 
           <View
             style={{
               width: width,
               height: 300,
-             
+
               borderTopLeftRadius: 40,
               borderTopRightRadius: 40,
               borderBottomStartRadius: 40,
               borderBottomEndRadius: 40,
               alignItems: 'center',
-              
             }}>
             <View style={styles.formItem}>
               <Text style={styles.formItem}>Email</Text>
@@ -99,38 +97,36 @@ class LoginScreen extends React.Component {
                 onChangeText={email => this.setState({email})}
                 value={this.state.email}
               />
-           
 
-            <View style={styles.formItem} />
-            <Text style={styles.formLabel}>Password</Text>
-            <TextInput
-              placeholder='Enter password...'
-              style={styles.formInput}
-              secureTextEntry
-              onChangeText={password => this.setState({password})}
-              value={this.state.password}
-            />
-             </View>
+              <View style={styles.formItem} />
+              <Text style={styles.formLabel}>Password</Text>
+              <TextInput
+                placeholder='Enter password...'
+                style={styles.formInput}
+                secureTextEntry
+                onChangeText={password => this.setState({password})}
+                value={this.state.password}
+              />
+            </View>
 
-            
-          
-            <TouchableOpacity 
-              
-             
-             
-              onPress={ this.login}
-            ><Text style={{fontSize: 20, fontWeight: 'bold',
-            color:'white', padding: 10}}>Login</Text>
+            <TouchableOpacity onPress={this.login}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: 'white',
+                  padding: 10,
+                }}>
+                Login
+              </Text>
             </TouchableOpacity>
-            
-            
-            <TouchableOpacity 
-              
-              onPress={() => this.props.navigation.navigate('SignupScreen')}
-            ><Text style={{fontSize: 20, fontWeight: 'bold',
-            color:'white',}}>Don't have  an account?</Text>
-           
-           </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SignupScreen')}>
+              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white'}}>
+                Don't have an account?
+              </Text>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>
@@ -140,20 +136,19 @@ class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
   formItem: {
-    
     padding: 2,
     fontWeight: 'bold',
-    color:'white',
-    
+    color: 'white',
+
     width: 300,
   },
   formLabel: {
     fontSize: 15,
     fontWeight: 'bold',
-    paddingHorizontal:2,
+    paddingHorizontal: 2,
     marginTop: 10,
     width: 200,
-    color:'white',
+    color: 'white',
   },
   formInput: {
     borderWidth: 2,
@@ -161,14 +156,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     borderRadius: 20,
-    borderTopColor:'white',
+    borderTopColor: 'white',
     borderBottomColor: 'white',
-    borderEndColor:'white',
-    borderRightColor:'white',
-    borderLeftColor:'white',
-    color:'white',
+    borderEndColor: 'white',
+    borderRightColor: 'white',
+    borderLeftColor: 'white',
+    color: 'white',
   },
- 
 })
 
 export default LoginScreen
