@@ -11,8 +11,6 @@ import {
   FlatList,
 } from 'react-native';
 import * as _ from 'lodash';
-//import Icon from 'react-native-vector-icons/FontAwesome';
-//import MapView, { PROVIDER_GOOGLE,Marker } from 'react-native-maps';
 import images from '../images/Images';
 import StarRating from 'react-native-star-rating';
 
@@ -37,7 +35,8 @@ class ShopDetailes extends Component {
       photo:'',
       userinfo:{},
       liked_reviews:[],
-     myreview:[]
+     myreview:[],
+     photo:null,
       
     };
   }
@@ -111,16 +110,55 @@ class ShopDetailes extends Component {
     
   }
 
+    //viewphoto
+viewphoto = async (rev_id) => {
+  let loc_id = this.props.route.params.location
+  this.state.location_id = loc_id
+  
+
+  let token = await AsyncStorage.getItem('@session_token')
+  return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id+ '/photo?t=' + Date.now(), {
+    method: 'get',
+    headers: {
+      'Content-Type': 'image/png',
+      'x-authorization': token,
+      
+    },
+  })
+    .then(response => {
+      if (response.status === 200) {
+        ToastAndroid.show('there is no photo to view', ToastAndroid.show);
+        
+
+
+
+
+    
+      } else {
+       // throw 'Something went wrong'
+        ToastAndroid.show('Sorry, there is no photo to view ', ToastAndroid.show);
+
+      }
+    })
+    .then(async responseJson => {
+      this.setState({photo:{url: responseJson.url}})
+      
+      console.log('photo')
+      
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+
+
+}
+
+
   // like  review
   likereview = async (rev_id) => {
     const loc_id = this.props.route.params.location
-    this.state.location_id = loc_id
-   // const {details} =this.state
-   // const{liked_reviews} = this.state.userinfo
-   
-    
-      
-
+    this.state.location_id = loc_id     
     
     let token = await AsyncStorage.getItem('@session_token')
       return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id+ '/like', {
@@ -156,12 +194,7 @@ class ShopDetailes extends Component {
   unlikereview = async (rev_id) => {
     const loc_id = this.props.route.params.location
     this.state.location_id = loc_id
-   
-    
-      
-
-    
-    let token = await AsyncStorage.getItem('@session_token')
+ let token = await AsyncStorage.getItem('@session_token')
       return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id+ '/like', {
         method: 'delete',
         headers: {
@@ -190,6 +223,7 @@ class ShopDetailes extends Component {
     
   
   }
+  //check like review
   chickliked(rev_id) {
     
     for (let i= 0; i< this.state.liked_reviews.length; i++) {
@@ -215,33 +249,25 @@ class ShopDetailes extends Component {
 deletereview = async (rev_id) => {
     let loc_id = this.props.route.params.location
     this.state.location_id = loc_id
-  //  const {reviews} = this.state.info
   
     let token = await AsyncStorage.getItem('@session_token')
     return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/review/'+ rev_id, {
       method: 'delete',
       headers: {
-      //  'Content-Type': 'application/json',
         'x-authorization': token,
       },
-     // body: JSON.stringify(send),
     })
       .then(response => {
         if (response.status === 200) {
-          console.log('delete review')
 
           ToastAndroid.show('your review was deleted', ToastAndroid.show);
       
         } else {
-         // throw 'Something went wrong'
           ToastAndroid.show('Sorry, your can not delete another user review ', ToastAndroid.show);
 
         }
       })
       .then(async responseJson => {
-        console.log('done')
-        this.getLocation(loc_id)
-        this.getinfo()
         
       })
       .catch(error => {
@@ -257,9 +283,6 @@ checkreview(rev_id) {
   for (let i = 0; i < this.state.myreview.length; i++) {
     if(this.state.myreview.reviews[i].review.review_id ==rev_id){
         
-    // this.setState ({
-    //   getthisreview: this.setState.addreview.reviews[i].review
-    // })
 
     }
     return true;
@@ -276,7 +299,10 @@ checkDelete(rev_id)
   }
 }
 
-  
+ 
+
+
+
   //Add review
   addreview = async () => {
     const {reviewbody, overallRating,priceRating,qualityRating,clenlinessRating} =this.state
@@ -310,12 +336,10 @@ checkDelete(rev_id)
           
         
         } else {
-          console.log('bad')
           throw 'Something went wrong'
         }
       })
       .then(async responseJson => {
-        console.log('done')
         this.getLocation(loc_id)
         this.getinfo()
         
@@ -336,11 +360,6 @@ checkDelete(rev_id)
     this.state.location_id = loc_id
     const {details} =this.state
     const{favourite_locations} = this.state.userinfo
-   
-    
-      
-
-    
     let token = await AsyncStorage.getItem('@session_token')
     if (_.findIndex(favourite_locations,location => location.location_id === details.location_id) !== -1) {
       return fetch('http://10.0.2.2:3333/api/1.0.0/location/' + loc_id + '/favourite', {
@@ -422,19 +441,11 @@ checkDelete(rev_id)
    else if (type === 3) this.setState({qualityRating: rating})
    else if (type === 4) this.setState({clenlinessRating:rating})
  }
-  // ratingCompleted (rating, name) {
-  //   let Obj = () => {
-  //     let rateObj = {}
-  //     rateObj[name] = rating
-  //     return rateObj
-  //   }
-  //   this.setState(Obj)
-  // };
+ 
   
   render () {
     const {favourite_locations} =this.state
-    const {details,myreview } = this.state
-    let rev_id = this.state
+    const {details } = this.state
     return (
       <View style={{flex: 1, backgroundColor: 'black',}}>
       <View style={{flexDirection:'row'}}>  
@@ -468,33 +479,7 @@ checkDelete(rev_id)
 
 
 
-          {/* <View style={{width, height: 120}} >
-          
-          <MapView 
-          style={{...StyleSheet.absoluteFill}}
-          initialRegion = {{
-            latitude:details.latitude,
-            longitude:details.longitude,
-            latitudeDelta:0.002,
-            longitudeDelta:0.002,
-            
-          }}
-          >
-          <Marker
-            coordinate={{
-              latitude:details.latitude,
-              longitude: details.longitude,
-              
-            }}
-            title={'cpffe'}
-            descriptio={'cafe'}
-          />
-
-          </MapView> 
-          
-
-          </View>
-       */}
+        
 
                 <View style={{flexDirection: 'row',}}>
                 <Text style={[styles.input, {width: 130, marginLeft: 25}]}>Overall</Text>
@@ -560,7 +545,13 @@ checkDelete(rev_id)
 
               <TouchableOpacity 
               onPress={ () =>this.addreview()}>
-              <Image style={{marginLeft: 5, width:60, height:50}} source={images.commet}/>
+              <Image style={{marginLeft: 5, width:30, height:40}} source={images.commet}/>
+              
+
+              </TouchableOpacity>
+              <TouchableOpacity 
+              onPress={ () =>  this.props.navigation.navigate('Camera',{location_id: details.location_id,review_id: details.location_reviews.review_id})}>
+              <Text style={{marginLeft:20,}}>📸</Text>
               
 
               </TouchableOpacity>
@@ -568,7 +559,7 @@ checkDelete(rev_id)
               <FlatList 
                 
                 nestedScrollEnabled
-               // style={{maxHeight: 75*5}}
+                style={{maxHeight: 75*5}}
                 data={details.location_reviews}
 
                 renderItem={({item}) => (
@@ -606,6 +597,15 @@ checkDelete(rev_id)
                     
 
                   </View>
+                  <TouchableOpacity
+                      onPress={ () =>this.viewphoto()}>
+                       <Text style={{marginLeft:300, width:80, height:80}} >
+                       🖼️
+                         
+                        </Text>
+
+              
+              </TouchableOpacity>
 
                   
                   <TouchableOpacity
@@ -628,6 +628,8 @@ checkDelete(rev_id)
 
               
               </TouchableOpacity>
+              
+                 
                  
 
                  
